@@ -8,7 +8,7 @@ It is always open in the current folder, and follows the navigation.
 
 Dependencies:
     * PyGTK 2.x <http://pygtk.org/>
-	* Nautilus Python <http://projects.gnome.org/nautilus-python/>
+	* Caja Python <http://pub.mate-desktop.org/releases/1.2/python-caja>
 	* Python VTE <http://ftp.gnome.org/pub/GNOME/sources/vte/>
 	* Python XDG <http://freedesktop.org/wiki/Software/pyxdg>
 
