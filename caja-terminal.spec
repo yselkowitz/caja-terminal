@@ -1,53 +1,56 @@
-#define bzr
-%define rev 8
-%define rel 1
 Name:           caja-terminal
-Version:        1.0
-Release:        %{rel}%{?bzr:.%{rev}bzr}%{?dist}
+Version:        0.7
+Release:        1%{?dist}
 Summary:        Terminal embedded in Caja
 
 Group:          System Environment/Shells
 License:        GPLv3+
-URL:            http://software.flogisoft.com/caja-terminal/en/
-%if 0%{?bzr}
-# This is a bzr snapshot, to get it
-# bzr branch -r %%{rev} lp:caja-terminal
-# mv caja-terminal %%{name}-%%{version}
-# tar cjf %%{name}-%%{version}-%%{rev}bzr.tar.bz2 %%{name}-%%{version}
-Source0:        %{name}-%{version}-%{rev}bzr.tar.bz2
-%else
-Source0:        http://download.flogisoft.com/files/Software/%{name}/%{name}_%{version}_src.tar.gz
-%endif
-BuildArch:      noarch
+URL:            http://software.flogisoft.com/nautilus-terminal/en/
+Source0:        %{name}-%{version}.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:       caja-python >= 1.0
-Requires:       pygobject2
-Requires:       vte3
+BuildRequires:  gettext
+
+Requires:       pygtk2 caja-python vte pyxdg
 
 %description
 Caja Terminal is a terminal embedded in Caja, the MATE's file browser.
-It is always open in the current folder, and follows the navigation.
+It is always open in the current folder, and follows the navigation
+(like an automated "cd" command).
 
 %prep
-%setup -q -n %{name}_%{version}_src
-# Remove shebang
-sed -i -e '/^#!\//, 1d' src/caja_terminal.py
+%setup -q
+chmod -x AUTHORS
+sed -i 's|/usr/lib/caja/extensions-2.0|%{_libdir}/caja/extensions-2.0|g' install.sh
 
 %build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -Dpm 644 src/caja_terminal.py \
-                 $RPM_BUILD_ROOT%{_datadir}/caja-python/extensions/caja_terminal.py
+mkdir -p $RPM_BUILD_ROOT
+bash install.sh --package $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
-%files
+%find_lang %{name}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %doc COPYING AUTHORS README
-%{_datadir}/caja-python/extensions/caja_terminal.py*
+%{_datadir}/%{name}
+%{_libdir}/caja/extensions-2.0/python/%{name}.py*
 
 %changelog
-* Wed Feb 08 2012 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.0-1
-- Update to released 1.0
+* Wed Jan 04 2012 Wolfgang Ulbrich <info@raveit.de> - 0.7-1
+- caja-terminal.spec based on nautilus-terminal-0.7-2.fc15 spec
 
-* Tue Sep 27 2011 Hicham HAOUARI <hicham.haouari@gmail.com> - 1.0-0.1.8bzr
-- Switch to 1.0 branch
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Fri Sep 24 2010 Hicham HAOUARI <hicham.haouari@gmail.com> - 0.7-1
+- New upstream release
+
+* Mon Sep 20 2010 Hicham HAOUARI <hicham.haouari@gmail.com> - 0.6-1
+- Initial package
