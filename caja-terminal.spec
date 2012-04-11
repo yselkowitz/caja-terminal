@@ -1,6 +1,6 @@
 Name:           caja-terminal
 Version:        0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Terminal embedded in Caja
 
 Group:          System Environment/Shells
@@ -11,7 +11,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gettext
 
-Requires:       pygtk2 caja-python vte pyxdg
+Requires:       pygtk2 python-caja vte pyxdg
 
 %description
 Caja Terminal is a terminal embedded in Caja, the MATE's file browser.
@@ -43,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/caja/extensions-2.0/python/%{name}.py*
 
 %changelog
+* Tue Apr 10 2012 Wolfgang Ulbrich <info@raveit.de> - 0.7-2
+- switch to python-caja instead of caja-python
+
 * Wed Jan 04 2012 Wolfgang Ulbrich <info@raveit.de> - 0.7-1
 - caja-terminal.spec based on nautilus-terminal-0.7-2.fc15 spec
 
