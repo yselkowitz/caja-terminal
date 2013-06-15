@@ -49,10 +49,13 @@ import gettext
 gettext.install(__appname__)
 from xdg import BaseDirectory
 
-import gi
-gi.require_version("Gtk", "2.0")
+import gtk
+import pygtk
+pygtk.require("2.0")
+import pango
+import vte
 
-from gi.repository import Gtk, Gdk, Pango, Vte, Caja
+import caja
 
 
 #Paths
@@ -334,14 +337,14 @@ class CajaTerminalPref(object):
         #Change current path to home dir
         os.chdir(os.environ.get("HOME"))
         #GUI
-        self.gui = Gtk.Builder()
+        self.gui = gtk.Builder()
         self.gui.set_translation_domain(__appname__)
         self.gui.add_from_file(PREF_GUI_FILE)
         self.gui.connect_signals(self)
         #### winMain ####
         self.winMain = self.gui.get_object("winMain")
         #demoTerm
-        self.demoTerm = Vte.Terminal()
+        self.demoTerm = vte.Terminal()
         self.demoTerm.set_size(20, 3)
         #Display something in the terminal
         self.demoTerm.feed("       _\|/_   zZ    ❭       ")
@@ -366,18 +369,18 @@ class CajaTerminalPref(object):
         self.spbtnDefHeight = self.gui.get_object("spbtnDefHeight")
         self.entryCmd = self.gui.get_object("entryCmd")
         self.comboboxCursor = self.gui.get_object("comboboxCursor")
-        self.lsstCursor = Gtk.ListStore(str)
+        self.lsstCursor = gtk.ListStore(str)
         self.comboboxCursor.set_model(self.lsstCursor)
-        self.cellCursor = Gtk.CellRendererText()
+        self.cellCursor = gtk.CellRendererText()
         self.comboboxCursor.pack_start(self.cellCursor, True)
         self.comboboxCursor.add_attribute(self.cellCursor, "text", 0)
         for shape in CURSOR_SHAPE:
             self.lsstCursor.append([shape])
         #Color
         self.comboboxPalette = self.gui.get_object("comboboxPalette")
-        self.lsstPalette = Gtk.ListStore(str)
+        self.lsstPalette = gtk.ListStore(str)
         self.comboboxPalette.set_model(self.lsstPalette)
-        self.cellPallette = Gtk.CellRendererText()
+        self.cellPallette = gtk.CellRendererText()
         self.comboboxPalette.pack_start(self.cellPallette, True)
         self.comboboxPalette.add_attribute(self.cellPallette, "text", 0)
         self._palette_list = []
@@ -406,11 +409,11 @@ class CajaTerminalPref(object):
         self.rbFolderList = self.gui.get_object("rbFolderList")
         self.btnFolderRemove = self.gui.get_object("btnRemoveFolder")
         self.trvFolderList = self.gui.get_object("trvFolderList")
-        self.lsstFolderList = Gtk.ListStore(str)
+        self.lsstFolderList = gtk.ListStore(str)
         self.trvFolderList.set_model(self.lsstFolderList)
-        self.columnFolderList = Gtk.TreeViewColumn(
+        self.columnFolderList = gtk.TreeViewColumn(
                 "Path",
-                Gtk.CellRendererText(),
+                gtk.CellRendererText(),
                 text=0,
                 )
         self.trvFolderList.append_column(self.columnFolderList)
@@ -496,7 +499,7 @@ class CajaTerminalPref(object):
 
     def on_fontbtn_font_set(self, widget):
         self._conf['font_name'] = str(self.fontbtn.get_font_name())
-        font = Pango.FontDescription(self.fontbtn.get_font_name())
+        font = pango.FontDescription(self.fontbtn.get_font_name())
         self.demoTerm.set_font(font)
 
     def on_cbAllowBold_toggled(self, widget):
@@ -562,14 +565,14 @@ class CajaTerminalPref(object):
         self.entryCmd.set_text(self._conf['general_command'])
         self.comboboxCursor.set_active(self._conf['general_cursor'])
         #Color
-        self.clbtnFg.set_color(Gdk.Color(self._conf['color_text']))
-        self.clbtnBg.set_color(Gdk.Color(self._conf['color_background']))
+        self.clbtnFg.set_color(gtk.gdk.Color(self._conf['color_text']))
+        self.clbtnBg.set_color(gtk.gdk.Color(self._conf['color_background']))
         index = self._palette_list.index(self._conf['color_palettename'])
         self.comboboxPalette.set_active(index)
         self._set_palette(self._conf['color_palettename'])
         #Font
         self.fontbtn.set_font_name(self._conf['font_name'])
-        font = Pango.FontDescription(self._conf['font_name'])
+        font = pango.FontDescription(self._conf['font_name'])
         self.demoTerm.set_font(font)
         self.cbAllowBold.set_active(self._conf['font_allowbold'])
         self.demoTerm.set_allow_bold(self._conf['font_allowbold'])
@@ -597,36 +600,36 @@ class CajaTerminalPref(object):
         bg = self.clbtnBg.get_color()
         palette = []
         for i in xrange(16):
-            palette.append(Gdk.Color(colors[i]))
+            palette.append(gtk.gdk.Color(colors[i]))
             self.clbtnPalette[i].set_color(palette[i])
         self.demoTerm.set_colors(fg, bg, palette)
 
-    def _remove_path_from_list(self, Gtktree, Gtklist, conflist):
+    def _remove_path_from_list(self, gtktree, gtklist, conflist):
         """ Remove the path from the list
 
         Arguments:
-          * Gtktree -- the GtkTreeView
-          * Gtklist -- the GtkListStore where we will remove the path
+          * gtktree -- the gtkTreeView
+          * gtklist -- the gtkListStore where we will remove the path
           * confilst -- the "Conf" path list
         """
-        model, iter_ = Gtktree.get_selection().get_selected()
-        conflist.remove(Gtklist.get_value(iter_, 0))
-        Gtklist.remove(iter_)
+        model, iter_ = gtktree.get_selection().get_selected()
+        conflist.remove(gtklist.get_value(iter_, 0))
+        gtklist.remove(iter_)
 
-    def _add_path_to_list(self, Gtklist, path, conflist):
+    def _add_path_to_list(self, gtklist, path, conflist):
         """ Adds the path in the list
 
         Arguments:
           * path -- the path to add
-          * Gtklist -- the GtkListStore where we will add the path
+          * gtklist -- the gtkListStore where we will add the path
           * confilst -- the "Conf" path list
         """
         if not path in conflist:
-            Gtklist.append([path])
+            gtklist.append([path])
             conflist.append(path)
 
 
-class CajaTerminal(Caja.LocationWidgetProvider):
+class CajaTerminal(caja.LocationWidgetProvider):
     """An integrated terminal for Caja."""
 
     def __init__(self):
@@ -669,7 +672,7 @@ class CajaTerminal(Caja.LocationWidgetProvider):
         not match_path(path, CONF['folders_list']):
             return
         #GUI
-        gui = Gtk.Builder()
+        gui = gtk.Builder()
         gui.set_translation_domain(__appname__)
         gui.add_from_file(TERMINAL_GUI_FILE)
         vboxMain = gui.get_object("vboxMain")
@@ -691,7 +694,7 @@ class CajaTerminal(Caja.LocationWidgetProvider):
         btnPref = gui.get_object("btnPref")
         sclwinTerm = gui.get_object("sclwinTerm")
         #terminal
-        terminal = Vte.Terminal()
+        terminal = vte.Terminal()
         terminal.last_size = window.nt_termheight
         self.fork_cmd(window, terminal, sclwinTerm, path)
         terminal.show()
@@ -702,11 +705,11 @@ class CajaTerminal(Caja.LocationWidgetProvider):
                 gui.get_object("adjV"),
                 )
         if CONF['general_showscrollbar']:
-            vpolicy = Gtk.POLICY_ALWAYS
+            vpolicy = gtk.POLICY_ALWAYS
         else:
-            vpolicy = Gtk.POLICY_NEVER
+            vpolicy = gtk.POLICY_NEVER
         sclwinTerm.set_policy(
-                Gtk.POLICY_NEVER, #Horizontal
+                gtk.POLICY_NEVER, #Horizontal
                 vpolicy, #Vertical
                 )
         if window.nt_termheight == -1:
@@ -763,45 +766,45 @@ class CajaTerminal(Caja.LocationWidgetProvider):
         terminal.connect("key-release-event", self.on_terminal_key_release_event)
         #DnD
         terminal.drag_dest_set(
-                Gtk.DEST_DEFAULT_MOTION |
-                Gtk.DEST_DEFAULT_HIGHLIGHT |
-                Gtk.DEST_DEFAULT_DROP,
+                gtk.DEST_DEFAULT_MOTION |
+                gtk.DEST_DEFAULT_HIGHLIGHT |
+                gtk.DEST_DEFAULT_DROP,
                 [('text/uri-list', 0, 80)],
-                Gdk.ACTION_COPY,
+                gtk.gdk.ACTION_COPY,
                 )
         terminal.connect("drag_motion", self.on_terminal_drag_motion)
         terminal.connect("drag_drop", self.on_terminal_drag_drop)
         terminal.connect("drag_data_received", self.on_terminal_drag_data_received)
         #### Accel ####
-        accel_group = Gtk.AccelGroup()
+        accel_group = gtk.AccelGroup()
         window.add_accel_group(accel_group)
         terminal.add_accelerator(
                 "paste-clipboard",
                 accel_group,
                 ord('V'),
-                Gdk.CONTROL_MASK | Gdk.SHIFT_MASK,
-                Gtk.ACCEL_VISIBLE,
+                gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK,
+                gtk.ACCEL_VISIBLE,
                 )
         terminal.add_accelerator(
                 "copy-clipboard",
                 accel_group,
                 ord('C'),
-                Gdk.CONTROL_MASK | Gdk.SHIFT_MASK,
-                Gtk.ACCEL_VISIBLE,
+                gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK,
+                gtk.ACCEL_VISIBLE,
                 )
         btnShow.add_accelerator(
                 "clicked",
                 accel_group,
                 ord('T'),
-                Gdk.CONTROL_MASK | Gdk.SHIFT_MASK,
-                Gtk.ACCEL_VISIBLE,
+                gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK,
+                gtk.ACCEL_VISIBLE,
                 )
         btnHide.add_accelerator(
                 "clicked",
                 accel_group,
                 ord('T'),
-                Gdk.CONTROL_MASK | Gdk.SHIFT_MASK,
-                Gtk.ACCEL_VISIBLE,
+                gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK,
+                gtk.ACCEL_VISIBLE,
                 )
         #### Return the widgets ####
         vboxMain.unparent()
@@ -827,7 +830,7 @@ class CajaTerminal(Caja.LocationWidgetProvider):
 
         Arguments:
             * widget -- the widget that call this function
-            * terminal -- the VTE (for applying the changes)
+            * terminal -- the vte (for applying the changes)
         """
         CajaTerminalPref(self._set_terminal, terminal)
 
@@ -898,7 +901,7 @@ class CajaTerminal(Caja.LocationWidgetProvider):
             self.fork_cmd(window, terminal, rwidget, path)
 
     def on_terminal_drag_motion(self, widget, event, x, y, time):
-        event.drag_status(Gdk.ACTION_COPY, time)
+        event.drag_status(gtk.gdk.ACTION_COPY, time)
         return True
 
     def on_terminal_drag_drop(self, widget, event, x, y, time):
@@ -915,11 +918,11 @@ class CajaTerminal(Caja.LocationWidgetProvider):
     def on_evResize_enter_notify_event(self, widget, event, rwidget):
         width, height = rwidget.get_size_request()
         rwidget.set_size_request(width, height)
-        cursor = Gdk.Cursor(Gdk.SB_V_DOUBLE_ARROW)
+        cursor = gtk.gdk.Cursor(gtk.gdk.SB_V_DOUBLE_ARROW)
         widget.window.set_cursor(cursor)
 
     def on_evResize_leave_notify_event(self, widget, event):
-        cursor = Gdk.Cursor(Gdk.ARROW)
+        cursor = gtk.gdk.Cursor(gtk.gdk.ARROW)
         widget.window.set_cursor(cursor)
 
     def on_evResize_motion_notify_event(self, widget, event, rwidget, term, window):
@@ -935,7 +938,7 @@ class CajaTerminal(Caja.LocationWidgetProvider):
     def _set_terminal(self, terminal):
         """Set terminal font, colors, palette,...
         Arguments:
-            * terminal -- the VTE
+            * terminal -- the vte
         """
         #General
         terminal.set_cursor_shape(CONF['general_cursor'])
@@ -946,14 +949,14 @@ class CajaTerminal(Caja.LocationWidgetProvider):
             colors = CONF['color_palette']
         else:
             colors = PREDEF_PALETTE['Tango']
-        fg = Gdk.Color(CONF['color_text'])
-        bg = Gdk.Color(CONF['color_background'])
+        fg = gtk.gdk.Color(CONF['color_text'])
+        bg = gtk.gdk.Color(CONF['color_background'])
         palette = []
         for color in colors:
-            palette.append(Gdk.Color(color))
+            palette.append(gtk.gdk.Color(color))
         terminal.set_colors(fg, bg, palette)
         #Font
-        font = Pango.FontDescription(CONF['font_name'])
+        font = pango.FontDescription(CONF['font_name'])
         terminal.set_font(font)
         terminal.set_allow_bold(CONF['font_allowbold'])
 
