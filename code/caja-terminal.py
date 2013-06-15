@@ -37,7 +37,7 @@
 """An integrated terminal for caja"""
 
 __author__ = "Fabien LOISON <flo@flogisoft.com>"
-__version__ = "0.7"
+__version__ = "0.8"
 __appname__ = "caja-terminal"
 
 

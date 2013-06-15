@@ -1,6 +1,6 @@
 Name:           caja-terminal
-Version:        0.7
-Release:        2%{?dist}
+Version:        0.8
+Release:        1%{?dist}
 Summary:        Terminal embedded in Caja
 
 Group:          System Environment/Shells
@@ -10,6 +10,8 @@ Source0:        %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gettext
+
+BuildRequires:  gettext python2-devel
 
 Requires:       pygtk2 python-caja vte pyxdg
 
@@ -26,23 +28,22 @@ sed -i 's|/usr/lib/caja/extensions-2.0|%{_libdir}/caja/extensions-2.0|g' install
 %build
 
 %install
-rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT
 bash install.sh --package $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
 %find_lang %{name}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc COPYING AUTHORS README
 %{_datadir}/%{name}
 %{_libdir}/caja/extensions-2.0/python/%{name}.py*
 
+
 %changelog
+* Sat Jun 15 2013 Wolfgang Ulbrich <info@raveit.de> - 0.8-1
+- bump version to 0.8
+
 * Tue Apr 10 2012 Wolfgang Ulbrich <info@raveit.de> - 0.7-2
 - switch to python-caja instead of caja-python
 
