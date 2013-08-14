@@ -11,9 +11,9 @@ _install() {
 	cp -v ./pixmaps/* "$1"/usr/share/caja-terminal/
 	cp -v ./code/*.glade "$1"/usr/share/caja-terminal/
 	#Caja Python
-	mkdir -pv "$1"/usr/"$libdir"/caja/extensions-2.0/python/
-	cp -pv ./code/caja-terminal.py "$1"/usr/"$libdir"/caja/extensions-2.0/python/
-	chmod -v 755 "$1"/usr/"$libdir"/caja/extensions-2.0/python/caja-terminal.py
+	mkdir -pv "$1"/usr/lib/caja/extensions-2.0/python/
+	cp -pv ./code/caja-terminal.py "$1"/usr/lib/caja/extensions-2.0/python/
+	chmod -v 755 "$1"/usr/lib/caja/extensions-2.0/python/caja-terminal.py
 	#Doc
 	mkdir -pv "$1"/usr/share/doc/caja-terminal/
 	cp -v README "$1"/usr/share/doc/caja-terminal/
@@ -37,7 +37,7 @@ _install() {
 _remove() {
 	#Remove Caja Terminal
 	rm -rv /usr/share/caja-terminal
-	rm -v /usr/"$libdir"/caja/extensions-2.0/python/caja-terminal.py
+	rm -v /usr/lib/caja/extensions-2.0/python/caja-terminal.py
 	rm -rv /usr/share/doc/caja-terminal
 	find /usr/share/locale/ -name caja-terminal.mo \
 		-exec rm -v '{}' ';'
@@ -62,7 +62,7 @@ _check_dep() {
 	echo -n "   * Caja ............................ "
 	test -x /usr/bin/caja && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; error=1 ; }
 	echo -n "   * Caja Python...................... "
-	test -f /usr/"$libdir"/caja/extensions-2.0/libcaja-python.so && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; }
+	test -f /usr/lib/caja/extensions-2.0/libcaja-python.so && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; }
 	echo -n "   * Python .............................. "
 	test -x /usr/bin/python && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; error=1 ; }
 	echo -n "   * Python GTK Bindings (PyGTK) ......... "
