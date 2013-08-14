@@ -2,17 +2,6 @@
 
 #Installation script for Caja Terminal
 
-machinetype=`uname -i`
-
-echo "$machinetype"
-
-if [ "$machinetype"=x86_64 ]
-   then
-     libdir=lib64
-   else
-     libdir=lib
-fi
-
 _install() {
 	#Install Caja Terminal
 	#$1 : the output path, if different of /
