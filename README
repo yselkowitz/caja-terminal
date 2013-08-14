@@ -17,8 +17,11 @@ Building dependencies:
 	* Bash
 
 Install:
-    For install Caja Terminal, run './install.sh --install' as root.
+    For install Caja Terminal on 32 bit machines (x86), run './install.sh --install' as root.
+    For install Caja Terminal on 64 bit machines (x86_64), run './install.sh --install' as root.
 
 Uninstall:
-    For uninstall Caja Terminal, run 
+    For uninstall Caja Terminal on 32 bit machines (x86), run 
+    '/usr/share/caja-terminal/install.sh --remove' as root.
+    For uninstall Caja Terminal on 64 bit machines (x86_64), run 
     '/usr/share/caja-terminal/install.sh --remove' as root.
