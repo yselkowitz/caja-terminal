@@ -29,7 +29,7 @@ _install() {
 	} done
 	#Copy this script for uninstalling, (not for --package)
 	if [ "$1" == "" ] ; then {
-		cp -v ./install.sh /usr/share/caja-terminal/
+		cp -v ./install-64.sh /usr/share/caja-terminal/
 	} fi
 }
 
