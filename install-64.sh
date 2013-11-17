@@ -11,9 +11,9 @@ _install() {
 	cp -v ./pixmaps/* "$1"/usr/share/caja-terminal/
 	cp -v ./code/*.glade "$1"/usr/share/caja-terminal/
 	#Caja Python
-	mkdir -pv "$1"/usr/lib64/caja/extensions-2.0/python/
-	cp -pv ./code/caja-terminal.py "$1"/usr/lib64/caja/extensions-2.0/python/
-	chmod -v 755 "$1"/usr/lib64/caja/extensions-2.0/python/caja-terminal.py
+	mkdir -pv "$1"/usr/share/caja-python/extensions/
+	cp -pv ./code/caja-terminal.py "$1"/usr/share/caja-python/extensions/
+	chmod -v 755 "$1"/usr/share/caja-python/extensions/caja-terminal.py
 	#Doc
 	mkdir -pv "$1"/usr/share/doc/caja-terminal/
 	cp -v README "$1"/usr/share/doc/caja-terminal/
@@ -37,7 +37,7 @@ _install() {
 _remove() {
 	#Remove Caja Terminal
 	rm -rv /usr/share/caja-terminal
-	rm -v /usr/lib64/caja/extensions-2.0/python/caja-terminal.py
+	rm -v /usr/share/caja-python/extensions/caja-terminal.py
 	rm -rv /usr/share/doc/caja-terminal
 	find /usr/share/locale/ -name caja-terminal.mo \
 		-exec rm -v '{}' ';'
