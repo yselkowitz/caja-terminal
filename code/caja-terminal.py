@@ -1,18 +1,21 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-   #########################################################################
+  #########################################################################
  ##                                                                       ##
-##              ┏┓╻┏━┓╻ ╻╺┳╸╻╻  ╻ ╻┏━┓   ╺┳╸┏━╸┏━┓┏┳┓╻┏┓╻┏━┓╻             ##
-##              ┃┗┫┣━┫┃ ┃ ┃ ┃┃  ┃ ┃┗━┓    ┃ ┣╸ ┣┳┛┃┃┃┃┃┗┫┣━┫┃             ##
-##              ╹ ╹╹ ╹┗━┛ ╹ ╹┗━╸┗━┛┗━┛    ╹ ┗━╸╹┗╸╹ ╹╹╹ ╹╹ ╹┗━╸           ##
-##                  — An integrated terminal for nautilus —               ##
+##              ┏━┓┏━┓ ━┓┏━┓    ╺┳╸┏━╸┏━┓┏┳┓╻┏┓╻┏━┓╻                      ##
+##              ┃  ┣━┫  ┃┣━┫     ┃ ┣╸ ┣┳┛┃┃┃┃┃┗┫┣━┫┃                      ##
+##              ┗━┛╹ ╹┗━┛╹ ╹     ╹ ┗━╸╹┗╸╹ ╹╹╹ ╹╹ ╹┗━╸                    ##
+##                  — An integrated terminal for caja —                   ##
 ##                                                                        ##
 ############################################################################
 ##                                                                        ##
-## Nautilus Terminal - An integrated terminal for nautilus                ##
+## Caja Terminal - An integrated terminal for caja                        ##
 ##                                                                        ##
+## For GNOME:                                                             ##
 ## Copyright (C) 2010  Fabien Loison (flo@flogisoft.com)                  ##
+## For MATE:                                                              ##
+## Copyright (C) 2012  Wolfgang Ulbrich                                   ##
 ##                                                                        ##
 ## This program is free software: you can redistribute it and/or modify   ##
 ## it under the terms of the GNU General Public License as published by   ##
@@ -29,14 +32,14 @@
 ##                                                                        ##
 ############################################################################
 ##                                                                        ##
-## WEB SITE : http://software.flogisoft.com/nautilus-terminal/            ##
+## WEB SITE : https://github.com/NiceandGently/caja-terminal              ##
 ##                                                                       ##
-#########################################################################
+ #########################################################################
 
 
 """An integrated terminal for caja"""
 
-__author__ = "Fabien LOISON <flo@flogisoft.com>"
+__author__ = "Wolfgang Ulbrich"
 __version__ = "0.8"
 __appname__ = "caja-terminal"
 
