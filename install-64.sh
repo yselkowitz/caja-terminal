@@ -62,7 +62,7 @@ _check_dep() {
 	echo -n "   * Caja ............................ "
 	test -x /usr/bin/caja && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; error=1 ; }
 	echo -n "   * Caja Python...................... "
-	test -f /usr/lib64/caja/extensions-2.0/lib64caja-python.so && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; }
+	test -f /usr/lib64/caja/extensions-2.0/libcaja-python.so && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; }
 	echo -n "   * Python .............................. "
 	test -x /usr/bin/python && echo "$_GREEN[OK]$_NORMAL" || { echo "$_RED[Missing]$_NORMAL" ; error=1 ; }
 	echo -n "   * Python GTK Bindings (PyGTK) ......... "
