@@ -1,3 +1,11 @@
+Due a lack of time i will focus my work on other linux projects.
+
+
+This repo is obsolete !
+=======================
+
+Feel free to catch it ;)
+
 caja-terminal
 ======================
 
