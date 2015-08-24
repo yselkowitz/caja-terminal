@@ -1,5 +1,5 @@
 Name:           caja-terminal
-Version:        0.8
+Version:        0.9
 Release:        1%{?dist}
 Summary:        Terminal embedded in Caja
 
@@ -7,13 +7,10 @@ Group:          System Environment/Shells
 License:        GPLv3+
 URL:            http://software.flogisoft.com/nautilus-terminal/en/
 Source0:        %{name}-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gettext
 
-BuildRequires:  gettext python2-devel
-
-Requires:       pygtk2 python-caja vte pyxdg
+Requires:       pygobject3 python-caja vte pyxdg
 
 %description
 Caja Terminal is a terminal embedded in Caja, the MATE's file browser.
@@ -23,7 +20,6 @@ It is always open in the current folder, and follows the navigation
 %prep
 %setup -q
 chmod -x AUTHORS
-sed -i 's|/usr/lib/caja/extensions-2.0|%{_libdir}/caja/extensions-2.0|g' install.sh
 
 %build
 
@@ -37,10 +33,13 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 %files -f %{name}.lang
 %doc COPYING AUTHORS README
 %{_datadir}/%{name}
-%{_libdir}/caja/extensions-2.0/python/%{name}.py*
+%{_datadir}/caja-python/extensions/%{name}.py*
 
 
 %changelog
+* Mon Aug 24 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 0.9-1
+- bump version to 0.9
+
 * Sat Jun 15 2013 Wolfgang Ulbrich <info@raveit.de> - 0.8-1
 - bump version to 0.8
 

@@ -16,6 +16,7 @@
 ## Copyright (C) 2010  Fabien Loison (flo@flogisoft.com)                  ##
 ## For MATE:                                                              ##
 ## Copyright (C) 2012  Wolfgang Ulbrich                                   ##
+## Copyright (C) 2015  Yaakov Selkowitz                                   ##
 ##                                                                        ##
 ## This program is free software: you can redistribute it and/or modify   ##
 ## it under the terms of the GNU General Public License as published by   ##
@@ -40,7 +41,7 @@
 """An integrated terminal for caja"""
 
 __author__ = "Wolfgang Ulbrich"
-__version__ = "0.8"
+__version__ = "0.9"
 __appname__ = "caja-terminal"
 
 
