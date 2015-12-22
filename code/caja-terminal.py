@@ -54,6 +54,7 @@ gettext.install(__appname__)
 from xdg import BaseDirectory
 
 import gi
+gi.require_version('Caja', '2.0')
 from gi.repository import Caja
 if gi.Repository.get_default().get_version('Gtk') == '2.0':
     gi.require_version('Gdk', '2.0')
