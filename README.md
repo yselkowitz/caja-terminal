@@ -9,7 +9,7 @@ Orginal:
 
 WEB SITE : http://software.flogisoft.com/nautilus-terminal/
 
-VERSION : 0.9
+VERSION : 0.9.1
 
 caja-terminal is an embedded terminal in caja, the MATE's file browser.
 It is always open in the current folder, and follows the navigation.

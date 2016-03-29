@@ -1,5 +1,5 @@
 Name:           caja-terminal
-Version:        0.9
+Version:        0.9.1
 Release:        1%{?dist}
 Summary:        Terminal embedded in Caja
 
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
 
 %changelog
+* Tue Mar 29 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 0.9.1-1
+- new version
+
 * Mon Aug 24 2015 Yaakov Selkowitz <yselkowi@redhat.com> - 0.9-1
 - bump version to 0.9
 
