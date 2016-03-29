@@ -476,11 +476,11 @@ class CajaTerminalPref(object):
     #~~~~ winLMain:Color ~~~~
 
     def on_clbtnFg_color_set(self, widget):
-        self._conf['color_text'] = str(widget.get_color())
+        self._conf['color_text'] = widget.get_color().to_string()
         self._set_palette(self._conf['color_palettename'])
 
     def on_clbtnBg_color_set(self, widget):
-        self._conf['color_background'] = str(widget.get_color())
+        self._conf['color_background'] = widget.get_color().to_string()
         self._set_palette(self._conf['color_palettename'])
 
     def on_comboboxPalette_changed(self, widget):
