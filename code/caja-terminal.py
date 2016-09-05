@@ -33,7 +33,7 @@
 ##                                                                        ##
 ############################################################################
 ##                                                                        ##
-## WEB SITE : https://github.com/NiceandGently/caja-terminal              ##
+## WEB SITE : https://github.com/yselkowitz/caja-terminal                 ##
 ##                                                                       ##
  #########################################################################
 
