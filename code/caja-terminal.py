@@ -56,9 +56,14 @@ from xdg import BaseDirectory
 import gi
 gi.require_version('Caja', '2.0')
 from gi.repository import Caja
-if gi.Repository.get_default().get_version('Gtk') == '2.0':
-    gi.require_version('Gdk', '2.0')
-    gi.require_version('Gtk', '2.0')
+if gi.Repository.get_default().get_version('Gtk') == '3.0':
+    try:
+        gi.require_version('Vte', '2.91')
+        HAVE_VTE_2_91 = True
+    except:
+        gi.require_version('Vte', '2.90')
+        HAVE_VTE_2_91 = False
+elif gi.Repository.get_default().get_version('Gtk') == '2.0':
     gi.require_version('Vte', '0.0')
 from gi.repository import GLib, GObject, Gdk, Gtk, Pango, Vte
 
@@ -476,11 +481,17 @@ class CajaTerminalPref(object):
     #~~~~ winLMain:Color ~~~~
 
     def on_clbtnFg_color_set(self, widget):
-        self._conf['color_text'] = widget.get_color().to_string()
+        if Gtk.check_version(3, 0, 0) is None:
+            self._conf['color_text'] = widget.get_rgba().to_string()
+        else:
+            self._conf['color_text'] = widget.get_color().to_string()
         self._set_palette(self._conf['color_palettename'])
 
     def on_clbtnBg_color_set(self, widget):
-        self._conf['color_background'] = widget.get_color().to_string()
+        if Gtk.check_version(3, 0, 0) is None:
+            self._conf['color_background'] = widget.get_rgba().to_string()
+        else:
+            self._conf['color_background'] = widget.get_color().to_string()
         self._set_palette(self._conf['color_palettename'])
 
     def on_comboboxPalette_changed(self, widget):
@@ -490,7 +501,10 @@ class CajaTerminalPref(object):
 
     def on_clbtnPalette_color_set(self, widget, index=0):
         """General method for on_color_set"""
-        changed_color = str(widget.get_color())
+        if Gtk.check_version(3, 0, 0) is None:
+            changed_color = widget.get_rgba().to_string()
+        else:
+            changed_color = widget.get_color().to_string()
         if self._conf['color_palettename'] != "Custom":
             self._conf['color_palette'] = list(
                     PREDEF_PALETTE[self._conf['color_palettename']]
@@ -570,8 +584,16 @@ class CajaTerminalPref(object):
         self.entryCmd.set_text(self._conf['general_command'])
         self.comboboxCursor.set_active(self._conf['general_cursor'])
         #Color
-        self.clbtnFg.set_color(Gdk.color_parse(self._conf['color_text']))
-        self.clbtnBg.set_color(Gdk.color_parse(self._conf['color_background']))
+        if Gtk.check_version(3, 0, 0) is None:
+            fg = Gdk.RGBA()
+            bg = Gdk.RGBA()
+            fg.parse(self._conf['color_text'])
+            bg.parse(self._conf['color_background'])
+            self.clbtnFg.set_rgba(fg)
+            self.clbtnBg.set_rgba(bg)
+        else:
+            self.clbtnFg.set_color(Gdk.color_parse(self._conf['color_text']))
+            self.clbtnBg.set_color(Gdk.color_parse(self._conf['color_background']))
         index = self._palette_list.index(self._conf['color_palettename'])
         self.comboboxPalette.set_active(index)
         self._set_palette(self._conf['color_palettename'])
@@ -601,12 +623,21 @@ class CajaTerminalPref(object):
             colors = self._conf['color_palette']
         else:
             colors = PREDEF_PALETTE['Tango']
-        fg = self.clbtnFg.get_color()
-        bg = self.clbtnBg.get_color()
+        if Gtk.check_version(3, 0, 0) is None:
+            fg = self.clbtnFg.get_rgba()
+            bg = self.clbtnBg.get_rgba()
+        else:
+            fg = self.clbtnFg.get_color()
+            bg = self.clbtnBg.get_color()
         palette = []
         for i in xrange(16):
-            palette.append(Gdk.color_parse(colors[i]))
-            self.clbtnPalette[i].set_color(palette[i])
+            if Gtk.check_version(3, 0, 0) is None:
+                palette.append(Gdk.RGBA())
+                palette[-1].parse(colors[i])
+                self.clbtnPalette[i].set_rgba(palette[-1])
+            else:
+                palette.append(Gdk.color_parse(colors[i]))
+                self.clbtnPalette[i].set_color(palette[-1])
         self.demoTerm.set_colors(fg, bg, palette)
 
     def _remove_path_from_list(self, gtktree, gtklist, conflist):
@@ -705,10 +736,8 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         terminal.show()
         sclwinTerm.add(terminal)
         #scrollbar
-        terminal.set_scroll_adjustments(
-                gui.get_object("adjH"),
-                gui.get_object("adjV"),
-                )
+        terminal.set_hadjustment(gui.get_object("adjH"))
+        terminal.set_vadjustment(gui.get_object("adjV"))
         if CONF['general_showscrollbar']:
             vpolicy = Gtk.PolicyType.ALWAYS
         else:
@@ -758,9 +787,14 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         terminal.connect("focus", self.on_terminal_need_child,
                 window, terminal, sclwinTerm, path,
                 )
-        terminal.connect("expose-event", self.on_terminal_need_child,
-                window, terminal, sclwinTerm, path,
-                )
+        if Gtk.check_version(3, 0, 0) is None:
+            terminal.connect("draw", self.on_terminal_need_child,
+                    window, terminal, sclwinTerm, path,
+                    )
+        else:
+            terminal.connect("expose-event", self.on_terminal_need_child,
+                    window, terminal, sclwinTerm, path,
+                    )
         terminal.connect("button-press-event", self.on_terminal_need_child,
                 window, terminal, sclwinTerm, path,
                 )
@@ -769,18 +803,20 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
                 )
         terminal.connect("key-release-event", self.on_terminal_key_release_event)
         #DnD
-        if Gtk._version != '2.0':
+        try:
             # Missing from Gtk-2.0 introspection
             terminal.drag_dest_set(
                     Gtk.DestDefaults.MOTION |
                     Gtk.DestDefaults.HIGHLIGHT |
                     Gtk.DestDefaults.DROP,
-                    [('text/uri-list', 0, 80)],
+                    [Gtk.TargetEntry.new('text/uri-list', 0, 80)],
                     Gdk.DragAction.COPY,
                     )
             terminal.connect("drag_motion", self.on_terminal_drag_motion)
             terminal.connect("drag_drop", self.on_terminal_drag_drop)
             terminal.connect("drag_data_received", self.on_terminal_drag_data_received)
+        except (AttributeError, TypeError):
+            pass
         #### Accel ####
         accel_group = Gtk.AccelGroup()
         window.add_accel_group(accel_group)
@@ -822,9 +858,14 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         #Size
         rwidget.set_size_request(-1, window.nt_termheight)
         #fork
-        window.nt_lastpid = terminal.fork_command_full(Vte.PtyFlags.DEFAULT,
-                None, [CONF['general_command']], None,
-                GLib.SpawnFlags.SEARCH_PATH, None, None)[1]
+        if HAVE_VTE_2_91:
+            terminal.spawn_sync(Vte.PtyFlags.DEFAULT,
+                    None, [CONF['general_command']], None,
+                    GLib.SpawnFlags.SEARCH_PATH, None, None)[1]
+        else:
+            window.nt_lastpid = terminal.fork_command_full(Vte.PtyFlags.DEFAULT,
+                    None, [CONF['general_command']], None,
+                    GLib.SpawnFlags.SEARCH_PATH, None, None)[1]
         terminal.feed("\033[2K\033[1G")
         terminal.has_child = True
         terminal.ctrl_pressed = False
@@ -926,11 +967,11 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         width, height = rwidget.get_size_request()
         rwidget.set_size_request(width, height)
         cursor = Gdk.Cursor(Gdk.CursorType.SB_V_DOUBLE_ARROW)
-        widget.window.set_cursor(cursor)
+        widget.get_window().set_cursor(cursor)
 
     def on_evResize_leave_notify_event(self, widget, event):
         cursor = Gdk.Cursor(Gdk.CursorType.ARROW)
-        widget.window.set_cursor(cursor)
+        widget.get_window().set_cursor(cursor)
 
     def on_evResize_motion_notify_event(self, widget, event, rwidget, term, window):
         width, height = rwidget.get_size_request()
@@ -956,11 +997,21 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
             colors = CONF['color_palette']
         else:
             colors = PREDEF_PALETTE['Tango']
-        fg = Gdk.color_parse(CONF['color_text'])
-        bg = Gdk.color_parse(CONF['color_background'])
+        if Gtk.check_version(3, 0, 0) is None:
+            fg = Gdk.RGBA()
+            fg.parse(CONF['color_text'])
+            bg = Gdk.RGBA()
+            bg.parse(CONF['color_background'])
+        else:
+            fg = Gdk.color_parse(CONF['color_text'])
+            bg = Gdk.color_parse(CONF['color_background'])
         palette = []
         for color in colors:
-            palette.append(Gdk.color_parse(color))
+            if Gtk.check_version(3, 0, 0) is None:
+                palette.append(Gdk.RGBA())
+                palette[-1].parse(color)
+            else:
+                palette.append(Gdk.color_parse(color))
         terminal.set_colors(fg, bg, palette)
         #Font
         font = Pango.FontDescription(CONF['font_name'])
