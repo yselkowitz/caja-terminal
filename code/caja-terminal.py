@@ -949,11 +949,11 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
             colors = CONF['color_palette']
         else:
             colors = PREDEF_PALETTE['Tango']
-        fg = Gdk.color_parse(CONF['color_text'])
-        bg = Gdk.color_parse(CONF['color_background'])
+        fg = Gdk.RGBA().from_color(Gdk.color_parse(CONF['color_text']))
+        bg = Gdk.RGBA().from_color(Gdk.color_parse(CONF['color_background']))
         palette = []
         for color in colors:
-            palette.append(Gdk.color_parse(color))
+            palette.append(Gdk.RGBA().from_color(Gdk.color_parse(color)))
         terminal.set_colors(fg, bg, palette)
         #Font
         font = Pango.FontDescription(CONF['font_name'])
