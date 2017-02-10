@@ -55,11 +55,8 @@ from xdg import BaseDirectory
 
 import gi
 gi.require_version('Caja', '2.0')
+gi.require_version('Vte', '2.91')
 from gi.repository import Caja
-if gi.Repository.get_default().get_version('Gtk') == '2.0':
-    gi.require_version('Gdk', '2.0')
-    gi.require_version('Gtk', '2.0')
-    gi.require_version('Vte', '0.0')
 from gi.repository import GLib, GObject, Gdk, Gtk, Pango, Vte
 
 
@@ -705,10 +702,8 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         terminal.show()
         sclwinTerm.add(terminal)
         #scrollbar
-        terminal.set_scroll_adjustments(
-                gui.get_object("adjH"),
-                gui.get_object("adjV"),
-                )
+        terminal.set_hadjustment(gui.get_object("adjH"))
+        terminal.set_vadjustment(gui.get_object("adjV"))
         if CONF['general_showscrollbar']:
             vpolicy = Gtk.PolicyType.ALWAYS
         else:
@@ -822,9 +817,9 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
         #Size
         rwidget.set_size_request(-1, window.nt_termheight)
         #fork
-        window.nt_lastpid = terminal.fork_command_full(Vte.PtyFlags.DEFAULT,
+        window.nt_lastpid = terminal.spawn_sync(Vte.PtyFlags.DEFAULT,
                 None, [CONF['general_command']], None,
-                GLib.SpawnFlags.SEARCH_PATH, None, None)[1]
+                GLib.SpawnFlags.SEARCH_PATH, None, None, None)[1]
         terminal.feed("\033[2K\033[1G")
         terminal.has_child = True
         terminal.ctrl_pressed = False
