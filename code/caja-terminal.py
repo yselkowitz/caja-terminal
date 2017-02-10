@@ -764,18 +764,16 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
                 )
         terminal.connect("key-release-event", self.on_terminal_key_release_event)
         #DnD
-        if Gtk._version != '2.0':
-            # Missing from Gtk-2.0 introspection
-            terminal.drag_dest_set(
-                    Gtk.DestDefaults.MOTION |
-                    Gtk.DestDefaults.HIGHLIGHT |
-                    Gtk.DestDefaults.DROP,
-                    [('text/uri-list', 0, 80)],
-                    Gdk.DragAction.COPY,
-                    )
-            terminal.connect("drag_motion", self.on_terminal_drag_motion)
-            terminal.connect("drag_drop", self.on_terminal_drag_drop)
-            terminal.connect("drag_data_received", self.on_terminal_drag_data_received)
+        terminal.drag_dest_set(
+                Gtk.DestDefaults.MOTION |
+                Gtk.DestDefaults.HIGHLIGHT |
+                Gtk.DestDefaults.DROP,
+                [('text/uri-list', 0, 80)],
+                Gdk.DragAction.COPY,
+                )
+        terminal.connect("drag_motion", self.on_terminal_drag_motion)
+        terminal.connect("drag_drop", self.on_terminal_drag_drop)
+        terminal.connect("drag_data_received", self.on_terminal_drag_data_received)
         #### Accel ####
         accel_group = Gtk.AccelGroup()
         window.add_accel_group(accel_group)
