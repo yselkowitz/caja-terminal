@@ -778,9 +778,7 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
                 )
         #Terminal
         terminal.connect("destroy", self.on_terminal_destroy, window)
-        terminal.connect("child-exited", self.on_terminal_child_exited,
-                terminal,
-                )
+        terminal.connect("child-exited", self.on_terminal_child_exited)
         terminal.connect("commit", self.on_terminal_commit,
                 window, sclwinTerm, path,
                 )
@@ -904,7 +902,7 @@ class CajaTerminal(GObject.GObject, Caja.LocationWidgetProvider):
             finally:
                 window.nt_lastpid = -1
 
-    def on_terminal_child_exited(self, widget, terminal):
+    def on_terminal_child_exited(self, terminal, status = None):
         terminal.has_child = False
 
     def on_terminal_commit(self, widget, char, size, window, rwidget, path):
