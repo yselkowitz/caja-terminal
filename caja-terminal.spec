@@ -1,5 +1,5 @@
 Name:           caja-terminal
-Version:        0.9.1
+Version:        0.10
 Release:        1%{?dist}
 Summary:        Terminal embedded in Caja
 
@@ -10,7 +10,7 @@ Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  gettext
 
-Requires:       pygobject3 python-caja vte pyxdg
+Requires:       python-gobject python-caja vte291 pyxdg
 
 %description
 Caja Terminal is a terminal embedded in Caja, the MATE's file browser.
@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc
 
 
 %changelog
+* Wed Mar 22 2017 Yaakov Selkowitz <yselkowi@redhat.com> - 0.10-1
+- new version for GTK+3
+
 * Tue Mar 29 2016 Yaakov Selkowitz <yselkowi@redhat.com> - 0.9.1-1
 - new version
 

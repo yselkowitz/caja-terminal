@@ -41,7 +41,7 @@
 """An integrated terminal for caja"""
 
 __author__ = "Wolfgang Ulbrich"
-__version__ = "0.9.1"
+__version__ = "0.10"
 __appname__ = "caja-terminal"
 
 
