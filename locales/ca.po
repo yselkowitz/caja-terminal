@@ -1,0 +1,190 @@
+# Catalan translation for caja-terminal
+# Copyright (c) 2017 The MATE Team
+# This file is distributed under the same license as the caja-terminal package.
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: caja-terminal\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-09-20 14:53+0200\n"
+"PO-Revision-Date: 2017-03-19 17:52+0100\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
+"Language-Team: Catalan <ca@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-23 18:12+0000\n"
+"X-Generator: Poedit 1.8.12\n"
+"Language: ca\n"
+
+#: code/caja-terminal.py:85
+msgid "Block"
+msgstr "Bloc"
+
+#: code/caja-terminal.py:86
+msgid "Vertical bar"
+msgstr "Barra vertical"
+
+#: code/caja-terminal.py:87
+msgid "Underlined"
+msgstr "Subratllat"
+
+#: code/caja-terminal.py:217
+msgid "Configuration written by Caja Terminal"
+msgstr "Configuració escrita pel terminal de Caja"
+
+#: code/caja-terminal.py:218
+msgid "Please edit with caution"
+msgstr "Editeu-ho amb precaució"
+
+#: code/caja-terminal.py:393
+msgid "Custom"
+msgstr "Personalizat"
+
+#: code/caja-terminal.glade:41
+msgid "Show Caja Terminal"
+msgstr "Mostra el terminal de Caja"
+
+#: code/caja-terminal.glade:58
+msgid "Show"
+msgstr "Mostra"
+
+#: code/caja-terminal.glade:106
+msgid "Hide Caja Terminal"
+msgstr "Oculta el terminal de Caja"
+
+#: code/caja-terminal.glade:129
+msgid "Preferences"
+msgstr "Preferències"
+
+#: code/caja-terminal.glade:144
+msgid "Decrease terminal size"
+msgstr "Redueix la mida del terminal"
+
+#: code/caja-terminal.glade:164
+msgid "Increase terminal size"
+msgstr "Augmenta la mida del terminal"
+
+#: code/caja-terminal-preferences.glade:16
+msgid "Preferences - Caja Terminal"
+msgstr "Preferències - Terminal de Caja"
+
+#: code/caja-terminal-preferences.glade:44
+msgid "Terminal preview:"
+msgstr "Vista prèvia del terminal:"
+
+#: code/caja-terminal-preferences.glade:82
+#: code/caja-terminal-preferences.glade:217
+msgid "General"
+msgstr "General"
+
+#: code/caja-terminal-preferences.glade:95
+msgid "Start Caja Terminal hidden"
+msgstr "Inicia ocult el terminal de Caja"
+
+#: code/caja-terminal-preferences.glade:110
+msgid "Show scrollbar"
+msgstr "Mostra la barra de desplaçament"
+
+#: code/caja-terminal-preferences.glade:148
+msgid ""
+"Default height:\n"
+"(in new windows)"
+msgstr ""
+"Alçada predeterminada:\n"
+"(a les finestres noves)"
+
+#: code/caja-terminal-preferences.glade:160
+msgid "Command:"
+msgstr "Ordre:"
+
+#: code/caja-terminal-preferences.glade:185
+msgid "Cursor shape:"
+msgstr "Forma del cursor:"
+
+#: code/caja-terminal-preferences.glade:231
+#: code/caja-terminal-preferences.glade:612
+msgid "Colors"
+msgstr "Colors"
+
+#: code/caja-terminal-preferences.glade:253
+msgid "Text color:"
+msgstr "Color del text:"
+
+#: code/caja-terminal-preferences.glade:263
+msgid "Background color:"
+msgstr "Color del fons:"
+
+#: code/caja-terminal-preferences.glade:344
+msgid "Predefined palettes:"
+msgstr "Paletes  predefinides:"
+
+#: code/caja-terminal-preferences.glade:591
+msgid "Palette:"
+msgstr "Paleta:"
+
+#: code/caja-terminal-preferences.glade:627
+#: code/caja-terminal-preferences.glade:693
+msgid "Font"
+msgstr "Lletra"
+
+#: code/caja-terminal-preferences.glade:645
+msgid "Font:"
+msgstr "Lletra:"
+
+#: code/caja-terminal-preferences.glade:672
+msgid "Allow bold text"
+msgstr "Permet el text en negreta"
+
+#: code/caja-terminal-preferences.glade:708
+#: code/caja-terminal-preferences.glade:836
+msgid "Folders"
+msgstr "Carpetes"
+
+#: code/caja-terminal-preferences.glade:721
+msgid "Show Caja Terminal in all folders"
+msgstr "Mostra el terminal de Caja en totes les carpetes"
+
+#: code/caja-terminal-preferences.glade:736
+msgid "Show Caja Terminal only in those folders (and sub-folders):"
+msgstr "Mostra el terminal de Caja en aquestes carpetes (i subcarpetes):"
+
+#: code/caja-terminal-preferences.glade:851
+#: code/caja-terminal-preferences.glade:903
+msgid "Help"
+msgstr "Ajuda"
+
+#: code/caja-terminal-preferences.glade:866
+msgid "Shortcuts list:"
+msgstr "Llista de les dreceres:"
+
+#: code/caja-terminal-preferences.glade:882
+msgid ""
+"* Ctrl+Shift+T:\tshow/hide Caja Terminal\n"
+"\n"
+"* Ctrl+Shift+C:\tCopy selection to clipboard\n"
+"* Ctrl+Shift+V:\tPaste clipboard content\n"
+"\n"
+"* Ctrl+Shift+D:\tReplace Ctrl+D\n"
+"* Ctrl+Shift+R:\tReplace Ctrl+R"
+msgstr ""
+"* Ctrl+Shift+T: \t mostra/oculta el terminal de Caja\n"
+"\n"
+"* Ctrl+Shift+C: \t Copia la selecció al porta-retalls\n"
+"* Ctrl+Shift+V: \t Enganxa el contingut del porta-retalls\n"
+"\n"
+"* Ctrl+Shift+D: \t Substitueix Ctrl+D\n"
+"* Ctrl+Shift+R: \t Substitueix Ctrl+R"
+
+#: code/caja-terminal-preferences.glade:986
+msgid "An integrated terminal for Caja"
+msgstr "Un terminal integrat per Caja"
+
+#: code/caja-terminal-preferences.glade:1002
+msgid "translator-credits"
+msgstr "Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>"
+
+#: code/caja-terminal-preferences.glade:1029
+msgid "Select a folder - Caja Terminal"
+msgstr "Selecciona una carpeta - Terminal de Caja"
